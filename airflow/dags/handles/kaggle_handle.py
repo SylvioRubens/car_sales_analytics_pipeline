@@ -5,10 +5,13 @@ import time
 
 class KaggleHandle():
     """Class to handle kagle datasets. You can use it to 
-    facilitates processes as the authentication. 
+    facilitates processes as the authentication, and download data from . 
     """
-    def __init__(self):
-        self.Kaggle_authenticate()
+    def __init__(self, auth_str = None):
+        if auth_str:
+            self.Kaggle_authenticate()
+        else:
+            print('class instantiated without auth key')
 
     def Kaggle_authenticate(self):
         """Autenticate with kagle using a key.json

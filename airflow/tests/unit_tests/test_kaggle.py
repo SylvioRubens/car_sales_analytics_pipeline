@@ -1,4 +1,4 @@
-from dags.handles.kaggle_handle import KaggleHandle
+from airflow.dags.handles.kaggle_handle import KaggleHandle
 import pytest
 from unittest.mock import patch
 
@@ -11,3 +11,7 @@ def test_authenticate_failure():
         
         with pytest.raises(Exception, match='Authentication Failed!'):
             kaggle_handle.authenticate()
+            
+if __name__ == '__main__':
+    print('Initializing Tests!')
+    
