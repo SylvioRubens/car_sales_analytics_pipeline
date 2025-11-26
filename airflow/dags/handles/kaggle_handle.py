@@ -1,23 +1,42 @@
-from kaggle.api.kaggle_api_extended import KaggleApi
+import os
+import json
 import requests
 import zipfile
 import time
+from kaggle.api.kaggle_api_extended import KaggleApi
 
 class KaggleHandle():
     """Class to handle kagle datasets. You can use it to 
     facilitates processes as the authentication, and download data from . 
     """
-    def __init__(self, auth_str = None):
-        if auth_str:
-            self.Kaggle_authenticate()
+    def __init__(self, api_credentials_path=None):
+        '''Initializes the KaggleHandle class and set the environment variables for authetication on kagle api
+        
+        Args:
+            api_credentials_path (str): path to kaggle api json file with credentials.
+        '''
+        
+        kaggle_username, kaggle_api_key = self.get_api_credentials(path=api_credentials_path)
+        
+        if kaggle_username and kaggle_api_key: 
+            
+            # Setting the environment variables for kaggle api authentication
+            os.environ['KAGGLE_USERNAME'] = kaggle_username
+            os.environ['KAGGLE_API_KEY'] = kaggle_api_key
         else:
             print('class instantiated without auth key')
-
+            
+    def get_api_credentials(self, path):
+        with open(path, 'r') as file:
+            data = json.load(file)
+        
+        username = data["username"]
+        api_key = data["key"]
+        
+        return username, api_key
+        
     def Kaggle_authenticate(self):
-        """Autenticate with kagle using a key.json
-
-        Args:
-            key_file (str): file with api key created in kaggle site
+        """Autenticate with kagle api using the environment variables or json file with api key on path ".kaggle/kaggle.json".
         """
         try:
             self.api = KaggleApi.authenticate()

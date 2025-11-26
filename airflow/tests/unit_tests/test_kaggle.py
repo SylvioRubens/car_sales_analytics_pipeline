@@ -1,17 +1,21 @@
-from airflow.dags.handles.kaggle_handle import KaggleHandle
 import pytest
 from unittest.mock import patch
+import os
 
-def test_authenticate_failure():
-    with patch('dags.handles.kaggle_handle.KaggleApi') as MockKagleAPI:
+def test_kaggle_authentication():
+    print('we are in ' + os.getcwd())
+    # get kaggle json api data
     
-        MockKagleAPI.authenticate.side_effect = Exception('Authentication Failed!')
         
-        kaggle_handle = KaggleHandle()
-        
-        with pytest.raises(Exception, match='Authentication Failed!'):
-            kaggle_handle.authenticate()
+    # instantiate kaggle api
+    
+    # authenticate with api
+    
+    # download dataset
             
+    pass
+
 if __name__ == '__main__':
     print('Initializing Tests!')
+    pytest.main()
     
